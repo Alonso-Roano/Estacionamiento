@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import InicioAndroid from './Paginas/InicioAndroid';
 import InicioWeb from './Paginas/InicioWeb';
+import Usuarios from './Paginas/Usuarios';
 
 const Stack = createStackNavigator();
 
@@ -20,6 +21,13 @@ const App = () => {
           component={InicioWeb}
           options={{ headerShown: false }}
         />
+        <Stack.Screen
+          name="Usuarios"
+          component={Usuarios}
+          options={{headerShown:false}}
+        />
+
+        
       
       </Stack.Navigator>
 

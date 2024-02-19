@@ -34,6 +34,14 @@ const Slide = () => {
         // Implementación de logout
     };
 
+    const handleMenuPress = (item) => {
+        if (item.title === "Usuarios") {
+            navigation.navigate("Usuarios"); // Reemplaza "UsuariosPage" con el nombre de tu pantalla de usuarios
+        } else {
+            // Manejar la navegación para otros elementos del menú si es necesario
+        }
+    };
+
     return (
         <View style={styles.menuContainer}>
             <View style={styles.logoSection}>
@@ -52,11 +60,11 @@ const Slide = () => {
             <ScrollView style={styles.navSection}>
                 {menuItems.map((item) => (
                     <>
-                        <TouchableOpacity style={styles.auto}>
+                        <TouchableOpacity key={item.title} style={styles.auto} onPress={() => handleMenuPress(item)}>
                                 <Icon name={item.Icon} size={35} color="#fff"/>
                             <View style={styles.columna}>
-                                <View style={styles.logoutText}>{item.title}</View>
-                                <View style={styles.logoutSubText}>{item.subTitle}</View>
+                                <Text style={styles.logoutText}>{item.title}</Text>
+                                <Text style={styles.logoutSubText}>{item.subTitle}</Text>
                             </View>
                         </TouchableOpacity>
                     </>
