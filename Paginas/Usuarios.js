@@ -44,7 +44,7 @@ const Usuarios = () => {
 
         </View>
     </ScrollView>
-        <TouchableOpacity style={styles.fixedButton} onPress={() => navigation.navigate("Inicio")}>
+        <TouchableOpacity style={styles.fixedButton} onPress={() => navigation.navigate("Dashboard")}>
                 <Text style={styles.buttonText}>Regresar</Text>
             </TouchableOpacity>
         </View>
@@ -54,58 +54,57 @@ const Usuarios = () => {
 
 const styles = StyleSheet.create({
   cont: {
-    flex: 1,
-    backgroundColor:"#cececece"
-},
+      flex: 1,
+      backgroundColor:"#cececece"
+  },
   title:{
-    padding:10,
-        display:"flex",
-    justifyContent:"center",
-    alignItems:"center",
+      padding:10,
+      justifyContent:"center",
+      alignItems:"center",
   },
   word:{
-    fontSize:30,
-    fontWeight: 'bold',
+      fontSize:30,
+      fontWeight: 'bold',
   },
-    container:{
-        flexDirection: 'row', // Establece la dirección del flexbox a horizontal
-        flexWrap: 'wrap', // Permite que los elementos se envuelvan a la siguiente línea si no caben
-        justifyContent: 'space-between', // Distribuye el espacio entre los elementos
-gap:10,
-marginBottom: 60,
-    },
+  container:{
+      flexDirection: 'row', // Establece la dirección del flexbox a horizontal
+      flexWrap: 'wrap', // Permite que los elementos se envuelvan a la siguiente línea si no caben
+      justifyContent: 'space-between', // Distribuye el espacio entre los elementos
+      marginHorizontal: 10,
+      marginBottom: 60,
+  },
   column: {
-    width: '48%',
-    backgroundColor: '#ffffff',
-    padding: 10,
-    borderRadius: 5,
-    marginBottom: 10,
-    borderWidth: 1,
-    borderColor: '#ccc',
+      width: '48%',
+      backgroundColor: '#ffffff',
+      padding: 10,
+      borderRadius: 5,
+      marginBottom: 10,
+      borderWidth: 1,
+      borderColor: '#ccc',
   },
   username: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 5,
+      fontSize: 18,
+      fontWeight: 'bold',
+      marginBottom: 5,
   },
   entryInfo: {
-    fontSize: 16,
-    marginBottom: 3,
+      fontSize: 16,
+      marginBottom: 3,
   },
   fixedButton: {
-    position: 'absolute',
-    bottom: 10, // Ajusta este valor para cambiar la posición vertical del botón fijo
-    left: 10, // Ajusta este valor para cambiar la posición horizontal del botón fijo
-    backgroundColor: '#3498db',
-    borderRadius: 5,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-},
-buttonText: {
-    color: '#ffffff',
-    fontSize: 16,
-    fontWeight: 'bold',
-},
+      position: 'absolute',
+      bottom: 10, // Ajusta este valor para cambiar la posición vertical del botón fijo
+      left: 10, // Ajusta este valor para cambiar la posición horizontal del botón fijo
+      backgroundColor: '#3498db',
+      borderRadius: 5,
+      paddingVertical: 10,
+      paddingHorizontal: 20,
+  },
+  buttonText: {
+      color: '#ffffff',
+      fontSize: 16,
+      fontWeight: 'bold',
+  },
 });
 
 export default Usuarios;

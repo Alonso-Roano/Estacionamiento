@@ -59,7 +59,6 @@ const Slide = () => {
 
             <ScrollView style={styles.navSection}>
                 {menuItems.map((item) => (
-                    <>
                         <TouchableOpacity key={item.title} style={styles.auto} onPress={() => handleMenuPress(item)}>
                                 <Icon name={item.Icon} size={35} color="#fff"/>
                             <View style={styles.columna}>
@@ -67,8 +66,6 @@ const Slide = () => {
                                 <Text style={styles.logoutSubText}>{item.subTitle}</Text>
                             </View>
                         </TouchableOpacity>
-                    </>
-
 
                 ))}
 
@@ -89,29 +86,27 @@ const Slide = () => {
 };
 
 export default Slide;
-
 const styles = StyleSheet.create({
     columna:{
         flexDirection:"column",
-        flexGrow:1,
+        flex:1,
         height:"100%",
         justifyContent:"center",
         alignContent:"center",
         marginLeft:10
-      },
+    },
     auto: {
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        height:"50px",
-        marginBottom:"10px"
-      },
+        height:50,
+        marginBottom:10
+    },
     menuContainer: {
-        flex: 1,
         position: "absolute",
         backgroundColor: '#191c40',
         height: "100%",
-        maxWidth: "350px",
+        maxWidth: 350,
         width: "60%",
         padding: 20,
         zIndex: 100
@@ -128,7 +123,7 @@ const styles = StyleSheet.create({
         fontSize: 25,
         fontWeight: 'bold',
         color: '#ffffff',
-        marginBottom: "30px",
+        marginBottom: 30,
         fontFamily:"sans-serif"
     },
     profileSection: {
@@ -152,7 +147,7 @@ const styles = StyleSheet.create({
     logoImage: {
         width: 100,
         height: 100,
-        borderRadius: "50%",
+        borderRadius: 50,
         marginBottom: 5
     },
     profileName: {
@@ -169,7 +164,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 20,
     },
-    buttom: {
+    button: {
         marginLeft: 10,
     },
     logoutText: {

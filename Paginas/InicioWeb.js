@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, TouchableOpacity, ScrollView, Button } from 're
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Slide from './Slider';
+import  Constants  from 'expo-constants';
 
 const InicioWeb = () => {
   const navigation = useNavigation();
@@ -26,7 +27,7 @@ const InicioWeb = () => {
       <View style={styles.header}>
         <TouchableOpacity onPress={()=>setSide(true)}><Icon name="menu" size={45} color="#000" /></TouchableOpacity>
         <Text style={styles.title}>Parking Academy</Text>
-        <TouchableOpacity onPress={() => navigation.navigate("Inicio")}>
+        <TouchableOpacity onPress={() => {navigation.navigate("Inicio")}}>
           <Icon name="account-circle" size={45} color="#000" />
         </TouchableOpacity>
       </View>
@@ -42,8 +43,8 @@ const InicioWeb = () => {
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
         
         {datos.map((lista) => (
-          <View style={styles.auto}>
-            <Icon name="directions-car-filled" size={"100px"} color={lista.Activo?"#f00":color="#0f0"} />
+          <View key={lista.Lote} style={styles.auto}>
+            <Icon name="directions-car-filled" size={100} color={lista.Activo?"#f00":color="#0f0"} />
             <View style={styles.columna}>
               { lista.Activo?
               <><Text style={[styles.texto1,styles.texto]}>Fecha de entrada: {lista.Fecha}</Text> 
@@ -72,94 +73,94 @@ export default InicioWeb;
 
 const styles = StyleSheet.create({
   columna:{
-    flexDirection:"column",
-    flexGrow:1,
-    height:"100%",
-    justifyContent:"center",
-    alignContent:"center"
+      flexDirection:"column",
+      flex:1,
+      justifyContent:"center",
+      alignItems:"center"
   },
   texto:{
-    color:"#403532",
-    fontSize:"20px",
-    fontWeight:"bold"
+      color:"#403532",
+      fontSize:20,
+      fontWeight:"bold"
   },
   texto1:{
-    width:"100%",
-    textAlign:"center"
+      width:"100%",
+      textAlign:"center"
   },
   fila:{
-    flexDirection:"row",
-    width:"100%",
-    justifyContent:"space-around",
-    height:"50%",
-    alignItems:"center"
+      flexDirection:"row",
+      width:"100%",
+      justifyContent:"space-around",
+      height:"50%",
+      alignItems:"center"
   },
   fondo:{
-    position:"absolute",
-    width:"100%",
-    height:"100%",
-    backgroundColor:"#0005",
-    zIndex:50
+      position:"absolute",
+      width:"100%",
+      height:"100%",
+      backgroundColor:"#0005",
+      zIndex:50
   },
   container: {
-    position:"relative",
-    flex: 1
+      marginTop:Constants.statusBarHeight,
+      position:"relative",
+      flex: 1
   },
   scrollViewContent: {
-    flexGrow: 1,
-    height:10,
-    paddingVertical:10,
+      minHeight: 1000,
+      flexGrow: 1,
+      height:10,
+      paddingVertical:10,
   },
   header: {
-    height: 60,
-    backgroundColor: "#fff",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingHorizontal: 10,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 20,
+      height: 60,
+      backgroundColor: "#fff",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      paddingHorizontal: 10,
+      shadowColor: '#000',
+      shadowOffset: {
+          width: 0,
+          height: 0,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 20,
   },
   footer: {
-    height: 60,
-    backgroundColor: "#30BFBF",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingHorizontal: 10,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 20,
+      height: 60,
+      backgroundColor: "#30BFBF",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      paddingHorizontal: 10,
+      shadowColor: '#000',
+      shadowOffset: {
+          width: 0,
+          height: 0,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 20,
   },
   title: {
-    fontSize: 25,
-    fontWeight: "bold",
+      fontSize: 25,
+      fontWeight: "bold",
   },
   title2: {
-    fontSize: 25,
-    fontWeight: "bold",
-    alignContent:"center",
-    justifyContent:"center",
-    color:"#fff"
+      fontSize: 25,
+      fontWeight: "bold",
+      textAlign:"center",
+      color:"#fff"
   },
   auto: {
-    paddingHorizontal: 10,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    borderStyle:"solid",
-    borderWidth:2,
-    borderColor:"#0000",
-    borderBottomColor:"#403532",
-    height:"120px"
+      paddingHorizontal: 10,
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      borderStyle:"solid",
+      borderWidth:2,
+      borderColor:"#0000",
+      borderBottomColor:"#403532",
+      height:120
   },
 });
