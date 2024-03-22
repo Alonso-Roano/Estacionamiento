@@ -25,7 +25,7 @@ const InicioAndroid = () => {
                 <View style={[styles.circuloChico, styles.circulo6]}></View>
                 <View style={styles.cont}>
                     <Image
-                        source={{ uri: 'https://pngbuy.com/wp-content/uploads/2023/06/picsart-logo-png-hdlogo-picsart-png.png-2.png' }} // Reemplaza con la URL de tu icono
+                        source={require('../assets/logo-estacionamiento.png')}
                         style={styles.icon}
                     />
                 </View>

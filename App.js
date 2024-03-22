@@ -5,7 +5,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import InicioAndroid from './Paginas/InicioAndroid';
 import InicioWeb from './Paginas/InicioWeb';
 import Usuarios from './Paginas/Usuarios';
-
+import Estacionamiento from './Paginas/Estacionamiento';
+import Detalles from './Paginas/Detalles';
+ 
 const Stack = createStackNavigator();
 
 const App = () => {
@@ -19,17 +21,14 @@ const App = () => {
         />
         <Stack.Screen
           name="Dashboard"
-          component={InicioWeb}
+          component={Estacionamiento}
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="Usuarios"
-          component={Usuarios}
+          name="Detalles"
+          component={Detalles}
           options={{headerShown:false}}
         />
-
-        
-      
       </Stack.Navigator>
 
     </NavigationContainer>
