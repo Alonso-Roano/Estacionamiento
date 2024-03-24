@@ -4,52 +4,104 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Constants from 'expo-constants';
 import CircleLoader from './Circulo';
+import io from "socket.io-client";
+import Contador from './Contador';
 
 const Detalles = () => {
     const navigation = useNavigation();
+    const [useEffectFinished, setUseEffectFinished] = useState(false);
     const route = useRoute();
-    const [mensaje, setMensaje] = useState(route.params?.mensaje);
+    const [mensaje, setMensaje] = useState(route.params?.mensajes);
     const scrollViewRef = useRef(null);
-    const [espacios, setEspacios] = useState({
-        "P-1": { nombre: "P-1", fecha: "2024-03-21", hora: "08:00", estado: false, seleccionado: true },
-        "E-1": { nombre: "E-1", fecha: "2024-03-21", hora: "09:00", estado: true, seleccionado: false },
-        "E-2": { nombre: "E-2", fecha: "2024-03-21", hora: "10:00", estado: false, seleccionado: false },
-        "E-3": { nombre: "E-3", fecha: "2024-03-21", hora: "11:00", estado: true, seleccionado: false },
-        "E-4": { nombre: "E-4", fecha: "2024-03-21", hora: "12:00", estado: true, seleccionado: false },
-        "E-5": { nombre: "E-5", fecha: "2024-03-21", hora: "13:00", estado: true, seleccionado: false },
-        "M-1": { nombre: "M-1", fecha: "2024-03-21", hora: "14:00", estado: false, seleccionado: false },
-        "M-2": { nombre: "M-2", fecha: "2024-03-21", hora: "15:00", estado: true, seleccionado: false },
-        "M-3": { nombre: "M-3", fecha: "2024-03-21", hora: "16:00", estado: true, seleccionado: false },
-        "M-4": { nombre: "M-4", fecha: "2024-03-21", hora: "17:00", estado: true, seleccionado: false },
-    });
+    const [sensorData, setSensorData] = useState([]);
     const [paused, setPaused] = useState(false);
-    const [slot, setSlot] = useState(null);
-    const [tiempoTranscurrido, setTiempoTranscurrido] = useState(0);
- 
+    const [tiempoTranscurrido, setTiempoTranscurrido] = useState();
+
+    const scrollToElement = (elementKey) => {
+        const elementOffsetY = (Object.keys(espacios).indexOf(elementKey) * 110) - 110;
+        scrollViewRef.current.scrollTo({ y: elementOffsetY, animated: true });
+    };
+
+    useEffect(() => {
+        const socket = io("http://192.168.1.67:3000");
+
+        socket.on("updateData", (updatedData) => {
+            const sortedData = updatedData.sort((a, b) => {
+                const sensorIdANum = parseInt(a.sensorId.replace('SensorId', ''), 10);
+                const sensorIdBNum = parseInt(b.sensorId.replace('SensorId', ''), 10);
+                return sensorIdANum - sensorIdBNum;
+            });
+            const newData = sortedData.reduce((acc, data) => {
+                acc[data.sensorId] = {
+                    nombre: data.sensorId,
+                    estado: data.isOccupied,
+                    fecha: "2024-03-21",
+                    hora: "08:00",
+                    seleccionado: data.sensorId === route.params?.mensajes,
+                };
+                return acc;
+            }, {});
+            setEspacios(newData);
+            console.log(newData)
+            if (newData[mensaje].estado) {
+                setPaused(false);
+            } else {
+                setPaused(true);
+            }
+            if (newData[mensaje]) {
+                const { fecha, hora } = newData[mensaje];
+                const tiempoInicio = new Date(`${fecha}T${hora}`).getTime() / 1000;
+                const tiempoActual = Math.floor(Date.now() / 1000);
+                const tiempoTranscurrido = tiempoActual - tiempoInicio;
+                setTiempoTranscurrido(tiempoTranscurrido);
+            }
+        });
+
+        socket.emit("getData");
+
+        return () => {
+            socket.disconnect();
+        };
+    }, []);
+
+    const [espacios, setEspacios] = useState({
+        "SensorId1": { nombre: "", fecha: "2024-03-21", hora: "08:00", estado: false, seleccionado: true },
+        "SensorId2": { nombre: "", fecha: "2024-03-21", hora: "09:00", estado: true, seleccionado: false },
+        "SensorId3": { nombre: "", fecha: "2024-03-21", hora: "10:00", estado: false, seleccionado: false },
+        "SensorId4": { nombre: "", fecha: "2024-03-21", hora: "11:00", estado: true, seleccionado: false },
+        "SensorId5": { nombre: "", fecha: "2024-03-21", hora: "12:00", estado: true, seleccionado: false },
+        "SensorId6": { nombre: "", fecha: "2024-03-21", hora: "13:00", estado: true, seleccionado: false },
+        "SensorId7": { nombre: "", fecha: "2024-03-21", hora: "14:00", estado: false, seleccionado: false },
+        "SensorId8": { nombre: "", fecha: "2024-03-21", hora: "15:00", estado: true, seleccionado: false },
+        "SensorId9": { nombre: "", fecha: "2024-03-21", hora: "16:00", estado: true, seleccionado: false },
+        "SensorId10": { nombre: "", fecha: "2024-03-21", hora: "17:00", estado: true, seleccionado: false },
+    });
+
     useEffect(() => {
         if (mensaje && espacios.hasOwnProperty(mensaje)) {
-            setSlot(espacios[mensaje]);
             if (espacios[mensaje].estado) {
                 setPaused(false);
             } else {
-                setPaused(true)
+                setPaused(true);
             }
-            if (mensaje && espacios[mensaje]) {
+            if (espacios[mensaje]) {
                 const { fecha, hora } = espacios[mensaje];
-                const tiempoInicio = new Date(`${fecha}T${hora}`).getTime() / 1000; 
+                const tiempoInicio = new Date(`${fecha}T${hora}`).getTime() / 1000;
                 const tiempoActual = Math.floor(Date.now() / 1000);
-                const tiempoTranscurrido = tiempoActual - tiempoInicio; 
+                const tiempoTranscurrido = tiempoActual - tiempoInicio;
                 setTiempoTranscurrido(tiempoTranscurrido);
             }
-        } else {
-            setSlot(null);
-        }
-        resetSeleccionado(mensaje)
+        } 
+
+        setUseEffectFinished(true);
+        resetSeleccionado(route.params?.mensajes);
     }, [mensaje]);
+
     useEffect(() => {
-        scrollToElement(mensaje);
-        
-    }, [])
+        if (useEffectFinished && mensaje) {
+            scrollToElement(mensaje);
+        }
+    }, [useEffectFinished]);
 
     const resetSeleccionado = (nombreEspacio) => {
         setEspacios(prevEspacios => {
@@ -62,67 +114,46 @@ const Detalles = () => {
             return nuevosEspacios;
         });
     };
-    const togglePause = () => {
-        setPaused(!paused);
-    };
 
+    
 
-    const renderEspacios = () => {
-        return Object.keys(espacios).map((key, index) => {
+    const renderizarEspacios = () => {
+        const elementos = [];
+    
+        Object.keys(espacios).forEach((key, index) => {
             const espacio = espacios[key];
             const isFirst = index === 0;
             const isLast = index === Object.keys(espacios).length - 1;
             const prevEspacio = Object.values(espacios)[index - 1];
             const nextEspacio = Object.values(espacios)[index + 1];
-            return (
+    
+            elementos.push(
                 <View
                     key={key}
                     style={[
                         styles.opcion,
-                        (isFirst) ? null : (isFirst || (prevEspacio && prevEspacio.seleccionado)) ? styles.borderRadiusIzquierda : null,
-                        (isLast) ? null : (isLast || (nextEspacio && nextEspacio.seleccionado)) ? styles.borderRadiusDerecha : null,
+                        (isFirst) ? null : (isFirst || (prevEspacio && prevEspacio.nombre===route.params?.mensajes)) ? styles.borderRadiusIzquierda : null,
+                        (isLast) ? null : (isLast || (nextEspacio && nextEspacio.nombre === route.params?.mensajes)) ? styles.borderRadiusDerecha : null,
                     ]}
                 >
-
-                    <TouchableOpacity activeOpacity={1} onPress={() => setMensaje(espacio.nombre)}>
+                    <TouchableOpacity activeOpacity={1} onPress={() => { setMensaje(espacio.nombre); navigation.setParams({ mensajes: espacio.nombre }); }}>
                         <View style={[
                             styles.opcion,
-                            espacio.seleccionado ? styles.seleccionado : styles.borde,
-                            (isFirst) ? null : (isFirst || (prevEspacio && prevEspacio.seleccionado)) ? styles.borderRadiusIzquierda : null,
-                            (isLast) ? null : (isLast || (nextEspacio && nextEspacio.seleccionado)) ? styles.borderRadiusDerecha : null,
+                            espacio.nombre===route.params?.mensajes ? styles.seleccionado : styles.borde,
+                            (isFirst) ? null : (isFirst || (prevEspacio && prevEspacio.nombre===route.params?.mensajes)) ? styles.borderRadiusIzquierda : null,
+                            (isLast) ? null : (isLast || (nextEspacio && nextEspacio.nombre===route.params?.mensajes)) ? styles.borderRadiusDerecha : null,
                         ]}>
-                            <View style={styles.girar}><Text style={[styles.textoVista1, espacio.seleccionado ? styles.blanco : null]}>{espacio.nombre}</Text><Text style={[styles.textoVista2, espacio.seleccionado ? styles.blanco : null]}>{espacio.estado ? "Ocupado" : "Disponible"}</Text></View>
-                        </View></TouchableOpacity>
+                            <View style={styles.girar}>
+                                <Text style={[styles.textoVista1, espacio.nombre===route.params?.mensajes ? styles.blanco : null]}>{espacio.nombre}</Text>
+                                <Text style={[styles.textoVista2, espacio.nombre===route.params?.mensajes ? styles.blanco : null]}>{espacio.estado ? "Ocupado" : "Disponible"}</Text>
+                            </View>
+                        </View>
+                    </TouchableOpacity>
                 </View>
-
             );
         });
-    };
 
-    const scrollToElement = (elementKey) => {
-        const elementOffsetY = (Object.keys(espacios).indexOf(elementKey) * 110) - 110;
-        scrollViewRef.current.scrollTo({ y: elementOffsetY, animated: true });
-    };
-    const formatTiempo = (segundos) => {
-        const dias = Math.floor(segundos / (3600 * 24));
-        const horas = Math.floor((segundos % (3600 * 24)) / 3600);
-        const minutos = Math.floor((segundos % 3600) / 60);
-        const segundosRestantes = Math.floor(segundos % 60);
-        const mensajes = [];
-        if (dias > 0) mensajes.push(`${dias} ${dias === 1 ? '' : ''}`);
-        if (horas > 0) mensajes.push(`${horas} ${horas === 1 ? '' : ''}`);
-        if (minutos > 0) mensajes.push(`${minutos} ${minutos === 1 ? '':''}`);
-        if (segundosRestantes > 0) mensajes.push(`${segundosRestantes} ${segundosRestantes === 1 ? '' : ''}`);
-        if (mensajes.length === 1) {
-            return mensajes[0];
-        } else if (mensajes.length === 2) {
-            return mensajes.join('m:');
-        } else if (mensajes.length > 2) {
-            const ultimo = mensajes.pop();
-            return `${mensajes.join('h: ')}m: ${ultimo}s`;
-        } else {
-            return 'Menos de un segundo';
-        }
+        return elementos;
     };
 
     return (
@@ -133,16 +164,17 @@ const Detalles = () => {
                     ref={scrollViewRef}
                     contentContainerStyle={{ flexGrow: 1, backgroundColor: "#30BFBF" }}
                 >
-                    {renderEspacios()}
+                    {renderizarEspacios()}
                 </ScrollView>
             </View>
 
             <LinearGradient colors={['#30BFBF', '#008BB9']} style={styles.Estacionamiento}>
                 <CircleLoader paused={paused} />
-                {slot && (
+                {espacios[mensaje] && (
+                    
                     <View style={styles.Espacios}>
-                        {slot.estado ? <><Image source={require('../assets/auto.png')} style={styles.image} />
-                            <Text style={styles.Hora}>{formatTiempo(tiempoTranscurrido)}</Text></> : <><Image source={require('../assets/auto.png')} style={[styles.image, styles.ocultar]} />
+                        {espacios[mensaje].estado ? <><Image source={require('../assets/auto.png')} style={styles.image} />
+                        <Contador fecha={espacios[mensaje].fecha} hora={espacios[mensaje].hora} /></> : <><Image source={require('../assets/auto.png')} style={[styles.image, styles.ocultar]} />
                             <Text style={styles.Hora}>00:00</Text></>}
                         <Text style={styles.info}>Lote 1, Plaza {mensaje}</Text>
                     </View>

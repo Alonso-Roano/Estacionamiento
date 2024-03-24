@@ -1,28 +1,214 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
-import {  useNavigation } from "@react-navigation/native";
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image, Animated, Dimensions } from 'react-native';
+import { useNavigation } from "@react-navigation/native";
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import  Constants  from 'expo-constants';
+import Constants from 'expo-constants';
+
+const windowHeight = Dimensions.get('window').height;
 
 const InicioAndroid = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigation = useNavigation();
 
-    const handleLogin = () => {
-        console.log('Email: ', email, 'Password: ', password);
+    const animatedValues = {
+        circle1: new Animated.Value(windowHeight),
+        circle2: new Animated.Value(windowHeight),
+        circle3: new Animated.Value(windowHeight),
+        circle4: new Animated.Value(windowHeight),
+        circle5: new Animated.Value(windowHeight),
+        circle6: new Animated.Value(windowHeight),
+        circle7: new Animated.Value(windowHeight),
+        circle8: new Animated.Value(windowHeight),
+        circle9: new Animated.Value(windowHeight),
+        circle10: new Animated.Value(windowHeight),
+        circle11: new Animated.Value(windowHeight),
+        circle12: new Animated.Value(windowHeight),
     };
+
+    useEffect(() => {
+        Animated.loop(
+            Animated.sequence([
+                Animated.timing(animatedValues.circle1, {
+                    toValue: -200,
+                    duration: Math.floor(Math.random() * 7000) + 3000,
+                    useNativeDriver: true,
+                }),
+                Animated.timing(animatedValues.circle1, {
+                    toValue: windowHeight,
+                    duration: 0,
+                    useNativeDriver: true,
+                }),
+            ]),
+        ).start();
+        Animated.loop(
+            Animated.sequence([
+                Animated.timing(animatedValues.circle2, {
+                    toValue: -200,
+                    duration: Math.floor(Math.random() * 7000) + 3000,
+                    useNativeDriver: true,
+                }),
+                Animated.timing(animatedValues.circle2, {
+                    toValue: windowHeight,
+                    duration: 0,
+                    useNativeDriver: true,
+                }),
+            ]),
+        ).start();
+        Animated.loop(
+            Animated.sequence([
+                Animated.timing(animatedValues.circle3, {
+                    toValue: -200,
+                    duration: Math.floor(Math.random() * 7000) + 3000,
+                    useNativeDriver: true,
+                }),
+                Animated.timing(animatedValues.circle3, {
+                    toValue: windowHeight,
+                    duration: 0,
+                    useNativeDriver: true,
+                }),
+            ]),
+        ).start();
+        Animated.loop(
+            Animated.sequence([
+                Animated.timing(animatedValues.circle4, {
+                    toValue: -200,
+                    duration: Math.floor(Math.random() * 7000) + 3000,
+                    useNativeDriver: true,
+                }),
+                Animated.timing(animatedValues.circle4, {
+                    toValue: windowHeight,
+                    duration: 0,
+                    useNativeDriver: true,
+                }),
+            ]),
+        ).start();
+        Animated.loop(
+            Animated.sequence([
+                Animated.timing(animatedValues.circle5, {
+                    toValue: -200,
+                    duration: Math.floor(Math.random() * 7000) + 3000,
+                    useNativeDriver: true,
+                }),
+                Animated.timing(animatedValues.circle5, {
+                    toValue: windowHeight,
+                    duration: 0,
+                    useNativeDriver: true,
+                }),
+            ]),
+        ).start();
+        Animated.loop(
+            Animated.sequence([
+                Animated.timing(animatedValues.circle6, {
+                    toValue: -200,
+                    duration: Math.floor(Math.random() * 7000) + 3000,
+                    useNativeDriver: true,
+                }),
+                Animated.timing(animatedValues.circle6, {
+                    toValue: windowHeight,
+                    duration: 0,
+                    useNativeDriver: true,
+                }),
+            ]),
+        ).start();
+        Animated.loop(
+            Animated.sequence([
+                Animated.timing(animatedValues.circle7, {
+                    toValue: -200,
+                    duration: Math.floor(Math.random() * 7000) + 3000,
+                    useNativeDriver: true,
+                }),
+                Animated.timing(animatedValues.circle7, {
+                    toValue: windowHeight,
+                    duration: 0,
+                    useNativeDriver: true,
+                }),
+            ]),
+        ).start();
+        Animated.loop(
+            Animated.sequence([
+                Animated.timing(animatedValues.circle8, {
+                    toValue: -200,
+                    duration: Math.floor(Math.random() * 7000) + 3000,
+                    useNativeDriver: true,
+                }),
+                Animated.timing(animatedValues.circle8, {
+                    toValue: windowHeight,
+                    duration: 0,
+                    useNativeDriver: true,
+                }),
+            ]),
+        ).start();
+        Animated.loop(
+            Animated.sequence([
+                Animated.timing(animatedValues.circle9, {
+                    toValue: -200,
+                    duration: Math.floor(Math.random() * 7000) + 3000,
+                    useNativeDriver: true,
+                }),
+                Animated.timing(animatedValues.circle9, {
+                    toValue: windowHeight,
+                    duration: 0,
+                    useNativeDriver: true,
+                }),
+            ]),
+        ).start();
+        Animated.loop(
+            Animated.sequence([
+                Animated.timing(animatedValues.circle10, {
+                    toValue: -200,
+                    duration: Math.floor(Math.random() * 7000) + 3000,
+                    useNativeDriver: true,
+                }),
+                Animated.timing(animatedValues.circle10, {
+                    toValue: windowHeight,
+                    duration: 0,
+                    useNativeDriver: true,
+                }),
+            ]),
+        ).start();
+        Animated.loop(
+            Animated.sequence([
+                Animated.timing(animatedValues.circle11, {
+                    toValue: -200,
+                    duration: Math.floor(Math.random() * 7000) + 3000,
+                    useNativeDriver: true,
+                }),
+                Animated.timing(animatedValues.circle11, {
+                    toValue: windowHeight,
+                    duration: 0,
+                    useNativeDriver: true,
+                }),
+            ]),
+        ).start();
+        Animated.loop(
+            Animated.sequence([
+                Animated.timing(animatedValues.circle12, {
+                    toValue: -200,
+                    duration: Math.floor(Math.random() * 7000) + 3000,
+                    useNativeDriver: true,
+                }),
+                Animated.timing(animatedValues.circle12, {
+                    toValue: windowHeight,
+                    duration: 0,
+                    useNativeDriver: true,
+                }),
+            ]),
+        ).start();
+    }, []);
 
     return (
         <View style={styles.container}>
             <View style={styles.inicio}>
-                <View style={[styles.circuloGrande, styles.circulo1]}></View>
-                <View style={[styles.circuloGrande, styles.circulo2]}></View>
-                <View style={[styles.circuloGrande, styles.circulo3]}></View>
-                <View style={[styles.circuloMediano]}></View>
-                <View style={[styles.circuloChico, styles.circulo4]}></View>
-                <View style={[styles.circuloChico, styles.circulo5]}></View>
-                <View style={[styles.circuloChico, styles.circulo6]}></View>
+                <Animated.View style={[styles.circuloChico, styles.circulo1, { transform: [{ translateY: animatedValues.circle1 }] }]}></Animated.View>
+                <Animated.View style={[styles.circuloGrande, styles.circulo2, { transform: [{ translateY: animatedValues.circle2 }] }]}></Animated.View>
+                <Animated.View style={[styles.circuloChico, styles.circulo3, { transform: [{ translateY: animatedValues.circle3 }] }]}></Animated.View>
+                <Animated.View style={[styles.circuloGrande, styles.circulo4, { transform: [{ translateY: animatedValues.circle4 }] }]}></Animated.View>
+                <Animated.View style={[styles.circuloGrande, styles.circulo5, { transform: [{ translateY: animatedValues.circle5 }] }]}></Animated.View>
+                <Animated.View style={[styles.circuloChico, styles.circulo6, { transform: [{ translateY: animatedValues.circle6 }] }]}></Animated.View>
+                <Animated.View style={[styles.circuloChico, styles.circulo6, { transform: [{ translateY: animatedValues.circle6 }] }]}></Animated.View>
+                <Animated.View style={[styles.circuloChico, styles.circulo7, { transform: [{ translateY: animatedValues.circle7 }] }]}></Animated.View>
+                <Animated.View style={[styles.circuloChico, styles.circulo8, { transform: [{ translateY: animatedValues.circle8 }] }]}></Animated.View>
                 <View style={styles.cont}>
                     <Image
                         source={require('../assets/logo-estacionamiento.png')}
@@ -72,58 +258,73 @@ const styles = StyleSheet.create({
         justifyContent: "space-between"
     },
     contenedor: {
-        width:"100%",
+        width: "100%",
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 10,
         justifyContent: "center"
     },
     circulo1: {
-        top: -50,
-        left: -50
+        left: -50,
+        opacity: 0.8
     },
     circulo2: {
-        bottom: -50,
-        left: -50
+        left: -50,
+        opacity: 0.7
     },
     circulo3: {
-        bottom: 50,
-        right: -50
+        right: -50,
+        opacity: 0.6
+    },
+    circulo4: {
+        right: 0,
+        opacity: 0.5
+    },
+    circulo5: {
+        left: -10,
+        opacity: 0.4
+    },
+    circulo6: {
+        left: "45%",
+        opacity: 0.3
+    },
+    circulo7: {
+        left: "55%",
+        opacity: 0.2
+    },
+    circulo8: {
+        left: "65%",
+        opacity: 0.3
+    },
+    circulo9: {
+        left: "75%",
+        opacity: 0.4
+    },
+    circulo10: {
+        right: "10%",
+        opacity: 0.5
+    },
+    circulo11: {
+        right: -30,
+        opacity: 0.6
+    },
+    circulo12: {
+        right: -80,
+        opacity: 0.7
     },
     circuloGrande: {
         width: 180,
         height: 180,
-        backgroundColor: "#30BFBF",
+        backgroundColor: "#30BFBF99",
         borderRadius: 2000,
         position: "absolute",
-    },
-    circuloMediano: {
-        width: 130,
-        height: 130,
-        backgroundColor: "#30BFBF",
-        borderRadius: 2000,
-        position: "absolute",
-        top: "30%",
-        right: -10
     },
     circuloChico: {
         width: 80,
         height: 80,
-        backgroundColor: "#30BFBF",
+        backgroundColor: "#30BFBF99",
         borderRadius: 2000,
         position: "absolute",
-    },
-    circulo4: {
-        top: 10,
-        right: 0
-    },
-    circulo5: {
-        top: "35%",
-        left: -10
-    },
-    circulo6: {
-        bottom: 10,
-        left: "45%"
     },
     inicio: {
         width: "100%",
@@ -137,8 +338,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 100
     },
     container: {
-        marginTop:Constants.statusBarHeight,
-        minHeight:800,
+        marginTop: Constants.statusBarHeight,
+        minHeight: 800,
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
@@ -150,7 +351,7 @@ const styles = StyleSheet.create({
         borderRadius: 5
     },
     title: {
-        width:"100%",
+        width: "100%",
         fontSize: 50,
         fontWeight: 'bold',
         marginBottom: 10,

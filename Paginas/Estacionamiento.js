@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, ScrollView, Button, Image } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -6,6 +6,7 @@ import Slide from './Slider';
 import { LinearGradient } from 'expo-linear-gradient';
 import Constants from 'expo-constants';
 import Detalles from './Detalles';
+import io from "socket.io-client";
 
 const Estacionamiento = () => {
     const navigation = useNavigation();
@@ -13,18 +14,46 @@ const Estacionamiento = () => {
     const toggleDetalles = () => {
         setShowDetalles(!showDetalles);
     };
-    const [espacios, setEspacios] = useState([
-        { id: "P-1", estado: false, },
-        { id: "E-1", estado: true },
-        { id: "E-2", estado: false },
-        { id: "E-3", estado: true },
-        { id: "E-4", estado: true },
-        { id: "E-5", estado: true },
-        { id: "M-1", estado: true },
-        { id: "M-2", estado: true },
-        { id: "M-3", estado: true },
-        { id: "M-4", estado: false },
-    ]);
+    const [sensorData, setSensorData] = useState([]);
+
+    useEffect(() => {
+        const socket = io("http://192.168.1.67:3000");
+    
+        socket.on("updateData", (updatedData) => {
+            const sortedData = updatedData.sort((a, b) => {
+                const sensorIdANum = parseInt(a.sensorId.replace('SensorId', ''), 10);
+                const sensorIdBNum = parseInt(b.sensorId.replace('SensorId', ''), 10);
+                return sensorIdANum - sensorIdBNum;
+            });
+    
+            setSensorData(sortedData);
+        });
+    
+        socket.emit("getData");
+    
+        return () => {
+            socket.disconnect();
+        };
+    }, []);
+    const renderEspacio = (espacio, index, sensorData) => (
+        <View key={espacio.sensorId} 
+              style={[
+                  styles.cupo,
+                  espacio.sensorId === 'SensorId8' && styles.penultimo,
+                  ((index === sensorData.length - 1)&&!(espacio.sensorId === 'SensorId9')) && styles.ultimo, 
+              ]}>
+            <View style={styles.lineacupo}>
+                <Text style={styles.lineacupop}>{espacio.sensorId}</Text>
+            </View>
+            {espacio.isOccupied && (
+                <TouchableOpacity onPress={() => navigation.navigate("Detalles", { mensajes: espacio.sensorId })} 
+                                  style={styles.boton}>
+                    <Image source={require('../assets/auto.png')} 
+                           style={sensorData.length === 2 ? styles.image2 : styles.image} />
+                </TouchableOpacity>
+            )}
+        </View>
+    ); 
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -34,30 +63,7 @@ const Estacionamiento = () => {
             <View style={styles.Estacionamiento}>
                 <View style={styles.Espacios}>
                     <View style={styles.slots}>
-                        <View style={styles.cupo}>
-                            <View style={styles.lineacupo}><Text style={styles.lineacupop}>E-5</Text></View>
-                            {espacios[5].estado ? <TouchableOpacity onPress={() => navigation.navigate("Detalles", { mensaje: "E-5" })} style={styles.boton}><Image source={require('../assets/auto.png')} style={styles.image} /></TouchableOpacity> : <></>}
-                        </View>
-                        <View style={styles.cupo}>
-                            <View style={styles.lineacupo}><Text style={styles.lineacupop}>E-4</Text></View>
-                            {espacios[4].estado ? <TouchableOpacity onPress={() => navigation.navigate("Detalles", { mensaje: "E-4" })} style={styles.boton}><Image source={require('../assets/auto.png')} style={styles.image} /></TouchableOpacity> : <></>}
-                        </View>
-                        <View style={styles.cupo}>
-                            <View style={styles.lineacupo}><Text style={styles.lineacupop}>E-3</Text></View>
-                            {espacios[3].estado ? <TouchableOpacity onPress={() => navigation.navigate("Detalles", { mensaje: "E-3" })} style={styles.boton}><Image source={require('../assets/auto.png')} style={styles.image} /></TouchableOpacity> : <></>}
-                        </View>
-                        <View style={styles.cupo}>
-                            <View style={styles.lineacupo}><Text style={styles.lineacupop}>E-2</Text></View>
-                            {espacios[2].estado ? <TouchableOpacity onPress={() => navigation.navigate("Detalles", { mensaje: "E-2" })}style={styles.boton}><Image source={require('../assets/auto.png')} style={styles.image} /></TouchableOpacity> : <></>}
-                        </View>
-                        <View style={styles.cupo}>
-                            <View style={styles.lineacupo}><Text style={styles.lineacupop}>E-1</Text></View>
-                            {espacios[1].estado ? <TouchableOpacity onPress={() => navigation.navigate("Detalles", { mensaje: "E-1" })} style={styles.boton}><Image source={require('../assets/auto.png')} style={styles.image} /></TouchableOpacity> : <></>}
-                        </View>
-                        <View style={[styles.cupo, styles.ultimo]}>
-                            <View style={styles.lineacupo}><Text style={styles.lineacupop}>P-1</Text></View>
-                            {espacios[0].estado ? <TouchableOpacity onPress={() => navigation.navigate("Detalles", { mensaje: "P-1" })} style={styles.boton}><Image source={require('../assets/auto.png')} style={styles.image} /></TouchableOpacity> : <></>}
-                        </View>
+                    {sensorData.slice(0, 6).reverse().map(renderEspacio)}
                     </View>
                     <View style={styles.pasillo}>
                         <View style={styles.lineas}>
@@ -65,28 +71,14 @@ const Estacionamiento = () => {
                         </View>
                     </View>
                     <View style={styles.slots}>
-                        <View style={styles.cupo}>
-                            <View style={styles.lineacupo}><Text style={styles.lineacupop}>M-4</Text></View>
-                            {espacios[6].estado ? <TouchableOpacity onPress={() => navigation.navigate("Detalles", { mensaje: "M-4" })} style={styles.boton}><Image source={require('../assets/auto.png')} style={styles.image2} /></TouchableOpacity> : <></>}
-                        </View>
-                        <View style={styles.cupo}>
-                            <View style={styles.lineacupo}><Text style={styles.lineacupop}>M-3</Text></View>
-                            {espacios[7].estado ? <TouchableOpacity onPress={() => navigation.navigate("Detalles", { mensaje: "M-3" })} style={styles.boton}><Image source={require('../assets/auto.png')} style={styles.image2} /></TouchableOpacity> : <></>}
-                        </View>
+                        {sensorData.slice(8).reverse().map(renderEspacio)}
                         <View style={[styles.cupo, styles.ultimo, styles.salida]}>
                             <View style={[styles.lineacupo, styles.salida2]}><Text style={styles.lineacupop}>Salida</Text></View>
                         </View>
                         <View style={[styles.cupo, styles.ultimo, styles.salida]}>
                             <View style={[styles.lineacupo, styles.salida2]}><Text style={styles.lineacupop}>Entrada</Text></View>
                         </View>
-                        <View style={[styles.cupo, styles.penultimo]}>
-                            <View style={styles.lineacupo}><Text style={styles.lineacupop}>M-2</Text></View>
-                            {espacios[8].estado ? <TouchableOpacity onPress={() => navigation.navigate("Detalles", { mensaje: "M-2" })} style={styles.boton}><Image source={require('../assets/auto.png')} style={styles.image2} /></TouchableOpacity> : <></>}
-                        </View>
-                        <View style={[styles.cupo, styles.ultimo]}>
-                            <View style={styles.lineacupo}><Text style={styles.lineacupop}>M-1</Text></View>
-                            {espacios[9].estado ? <TouchableOpacity onPress={() => navigation.navigate("Detalles", { mensaje: "M-1" })} style={styles.boton}><Image source={require('../assets/auto.png')} style={styles.image2} /></TouchableOpacity> : <></>}
-                        </View>
+                        {sensorData.slice(6, 8).reverse().map(renderEspacio)}
                     </View>
                 </View>
             </View>
@@ -285,10 +277,10 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center"
     },
-    titulo:{
-        position:"absolute",
-        zIndex:200,
-        backgroundColor:"#000",
-        color:"#fff"
+    titulo: {
+        position: "absolute",
+        zIndex: 200,
+        backgroundColor: "#000",
+        color: "#fff"
     }
 });
