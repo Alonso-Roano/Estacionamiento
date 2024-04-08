@@ -14,19 +14,25 @@ const Estacionamiento = () => {
     const toggleDetalles = () => {
         setShowDetalles(!showDetalles);
     };
-    const [sensorData, setSensorData] = useState([]);
+    const [sensorData, setSensorData] = useState([{"id": "8f28bd13-f0c6-4e42-bedf-d98de66907a8", "isOccupied": false, "last_time": null, "sensorId": "sensor1"}, {"id": "c0320128-d4bf-4f89-a1c8-6634d01500ba", "isOccupied": false, "last_time": null, "sensorId": "sensor2"}, {"id": "5c8d7ca8-de0f-4ce4-96ae-17ac949314ad", "isOccupied": false, "last_time": null, "sensorId": "sensor3"}, {"id": "c1e75f29-2b48-4745-a27b-bd60feb49dd8", "isOccupied": false, "last_time": null, "sensorId": "sensor4"}, {"id": "962b48fd-0bc3-4174-adcc-7320514edb3a", "isOccupied": false, "last_time": null, "sensorId": "sensor5"}, {"id": "4d475675-8067-492b-ac8c-7588012461e0", "isOccupied": false, "last_time": "2024-04-06T18:53:13.000Z", "sensorId": "sensor6"}, {"id": "4dee7af8-fee0-4a4c-ae66-5e022b6f59f4", "isOccupied": false, "last_time": null, "sensorId": "sensor7"}, {"id": "09f32fb9-cb3f-4953-a6f5-92977b8ba9dc", "isOccupied": false, "last_time": "2024-04-06T18:35:29.000Z", "sensorId": "sensor8"}, {"id": "77adb75d-4989-4507-88f1-4ad890a03c84", "isOccupied": false, "last_time": null, "sensorId": "sensor9"}, {"id": "e20b5c71-6d84-41ff-a30d-af5359756fef", "isOccupied": false, "last_time": "2024-04-06T18:42:07.000Z", "sensorId": "sensor10"}]);
 
     useEffect(() => {
-        const socket = io("http://192.168.1.67:3000");
+        const socket = io("http://10.10.50.96:3000");
     
         socket.on("updateData", (updatedData) => {
             const sortedData = updatedData.sort((a, b) => {
-                const sensorIdANum = parseInt(a.sensorId.replace('SensorId', ''), 10);
-                const sensorIdBNum = parseInt(b.sensorId.replace('SensorId', ''), 10);
+                const sensorIdANum = parseInt(a.sensorId.replace('sensor', ''), 10);
+                const sensorIdBNum = parseInt(b.sensorId.replace('sensor', ''), 10);
                 return sensorIdANum - sensorIdBNum;
             });
-    
-            setSensorData(sortedData);
+
+            const replacedData = sortedData.map(item => ({
+                ...item,
+                sensorId: item.sensorId.replace('sensor', 'Espacio ')
+            }));
+        
+            setSensorData(replacedData);
+            console.log(replacedData);
         });
     
         socket.emit("getData");
@@ -35,12 +41,13 @@ const Estacionamiento = () => {
             socket.disconnect();
         };
     }, []);
+    
     const renderEspacio = (espacio, index, sensorData) => (
         <View key={espacio.sensorId} 
               style={[
                   styles.cupo,
-                  espacio.sensorId === 'SensorId8' && styles.penultimo,
-                  ((index === sensorData.length - 1)&&!(espacio.sensorId === 'SensorId9')) && styles.ultimo, 
+                  espacio.sensorId === 'Espacio 8' && styles.penultimo,
+                  ((index === sensorData.length - 1)&&!(espacio.sensorId === 'Espacio 9')) && styles.ultimo, 
               ]}>
             <View style={styles.lineacupo}>
                 <Text style={styles.lineacupop}>{espacio.sensorId}</Text>

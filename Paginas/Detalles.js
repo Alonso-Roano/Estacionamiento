@@ -23,26 +23,31 @@ const Detalles = () => {
     };
 
     useEffect(() => {
-        const socket = io("http://192.168.1.67:3000");
-
+        const socket = io("http://10.10.50.96:3000");
+        console.log(mensaje) 
         socket.on("updateData", (updatedData) => {
             const sortedData = updatedData.sort((a, b) => {
-                const sensorIdANum = parseInt(a.sensorId.replace('SensorId', ''), 10);
-                const sensorIdBNum = parseInt(b.sensorId.replace('SensorId', ''), 10);
+                const sensorIdANum = parseInt(a.sensorId.replace('sensor', ''), 10);
+                const sensorIdBNum = parseInt(b.sensorId.replace('sensor', ''), 10);
                 return sensorIdANum - sensorIdBNum;
             });
+    
             const newData = sortedData.reduce((acc, data) => {
-                acc[data.sensorId] = {
-                    nombre: data.sensorId,
+                const lastTime = new Date(data.last_time);
+                const fecha = `${lastTime.getFullYear()}-${String(lastTime.getMonth() + 1).padStart(2, '0')}-${String(lastTime.getDate()).padStart(2, '0')}`;
+                const hora = `${String(lastTime.getHours()).padStart(2, '0')}:${String(lastTime.getMinutes()).padStart(2, '0')}:${String(lastTime.getSeconds()).padStart(2, '0')}`;
+                const sensorIdReplaced = data.sensorId.replace('sensor', 'Espacio ');
+                acc[sensorIdReplaced] = {
+                    nombre: sensorIdReplaced,
                     estado: data.isOccupied,
-                    fecha: "2024-03-21",
-                    hora: "08:00",
-                    seleccionado: data.sensorId === route.params?.mensajes,
+                    fecha: fecha,
+                    hora: hora,
+                    seleccionado: sensorIdReplaced === route.params?.mensajes,
                 };
                 return acc;
             }, {});
+    
             setEspacios(newData);
-            console.log(newData)
             if (newData[mensaje].estado) {
                 setPaused(false);
             } else {
@@ -56,26 +61,16 @@ const Detalles = () => {
                 setTiempoTranscurrido(tiempoTranscurrido);
             }
         });
-
+    
         socket.emit("getData");
-
+    
         return () => {
             socket.disconnect();
         };
     }, []);
+    
 
-    const [espacios, setEspacios] = useState({
-        "SensorId1": { nombre: "", fecha: "2024-03-21", hora: "08:00", estado: false, seleccionado: true },
-        "SensorId2": { nombre: "", fecha: "2024-03-21", hora: "09:00", estado: true, seleccionado: false },
-        "SensorId3": { nombre: "", fecha: "2024-03-21", hora: "10:00", estado: false, seleccionado: false },
-        "SensorId4": { nombre: "", fecha: "2024-03-21", hora: "11:00", estado: true, seleccionado: false },
-        "SensorId5": { nombre: "", fecha: "2024-03-21", hora: "12:00", estado: true, seleccionado: false },
-        "SensorId6": { nombre: "", fecha: "2024-03-21", hora: "13:00", estado: true, seleccionado: false },
-        "SensorId7": { nombre: "", fecha: "2024-03-21", hora: "14:00", estado: false, seleccionado: false },
-        "SensorId8": { nombre: "", fecha: "2024-03-21", hora: "15:00", estado: true, seleccionado: false },
-        "SensorId9": { nombre: "", fecha: "2024-03-21", hora: "16:00", estado: true, seleccionado: false },
-        "SensorId10": { nombre: "", fecha: "2024-03-21", hora: "17:00", estado: true, seleccionado: false },
-    });
+    const [espacios, setEspacios] = useState({"Espacio 1": {"estado": false, "fecha": "1969-12-31", "hora": "19:00", "nombre": "Espacio 1", "seleccionado": false}, "Espacio 2": {"estado": false, "fecha": "1969-12-31", "hora": "19:00", "nombre": "Espacio 2", "seleccionado": false}, "Espacio 3": {"estado": false, "fecha": "1969-12-31", "hora": "19:00", "nombre": "Espacio 3", "seleccionado": false}, "Espacio 4": {"estado": false, "fecha": "1969-12-31", "hora": "19:00", "nombre": "Espacio 4", "seleccionado": false}, "Espacio 5": {"estado": false, "fecha": "1969-12-31", "hora": "19:00", "nombre": "Espacio 5", "seleccionado": false}, "Espacio 6": {"estado": false, "fecha": "2024-04-06", "hora": "13:53", "nombre": "Espacio 6", "seleccionado": false}, "Espacio 7": {"estado": false, "fecha": "1969-12-31", "hora": "19:00", "nombre": "Espacio 7", "seleccionado": false}, "Espacio 8": {"estado": false, "fecha": "2024-04-06", "hora": "13:35", "nombre": "Espacio 8", "seleccionado": false}, "Espacio 9": {"estado": false, "fecha": "1969-12-31", "hora": "19:00", "nombre": "Espacio 9", "seleccionado": false}, "Espacio 10": {"estado": false, "fecha": "2024-04-06", "hora": "13:42", "nombre": "Espacio 10", "seleccionado": false}});
 
     useEffect(() => {
         if (mensaje && espacios.hasOwnProperty(mensaje)) {

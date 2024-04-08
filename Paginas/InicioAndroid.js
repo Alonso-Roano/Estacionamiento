@@ -1,214 +1,54 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, } from 'react';
 import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image, Animated, Dimensions } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Constants from 'expo-constants';
-
+import swal from "sweetalert2";
+import axios from "axios";
+import Circulos from './Circulos';
+import Dialog, { DialogContent } from 'react-native-popup-dialog';
 const windowHeight = Dimensions.get('window').height;
+import { FontAwesome } from '@expo/vector-icons';
 
 const InicioAndroid = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigation = useNavigation();
+    const [showAlert, setShowAlert] = useState(false);
+    const [showAlert2, setShowAlert2] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
-    const animatedValues = {
-        circle1: new Animated.Value(windowHeight),
-        circle2: new Animated.Value(windowHeight),
-        circle3: new Animated.Value(windowHeight),
-        circle4: new Animated.Value(windowHeight),
-        circle5: new Animated.Value(windowHeight),
-        circle6: new Animated.Value(windowHeight),
-        circle7: new Animated.Value(windowHeight),
-        circle8: new Animated.Value(windowHeight),
-        circle9: new Animated.Value(windowHeight),
-        circle10: new Animated.Value(windowHeight),
-        circle11: new Animated.Value(windowHeight),
-        circle12: new Animated.Value(windowHeight),
+    const toggleShowPassword = () => {
+        setShowPassword(!showPassword);
     };
 
-    useEffect(() => {
-        Animated.loop(
-            Animated.sequence([
-                Animated.timing(animatedValues.circle1, {
-                    toValue: -200,
-                    duration: Math.floor(Math.random() * 7000) + 3000,
-                    useNativeDriver: true,
-                }),
-                Animated.timing(animatedValues.circle1, {
-                    toValue: windowHeight,
-                    duration: 0,
-                    useNativeDriver: true,
-                }),
-            ]),
-        ).start();
-        Animated.loop(
-            Animated.sequence([
-                Animated.timing(animatedValues.circle2, {
-                    toValue: -200,
-                    duration: Math.floor(Math.random() * 7000) + 3000,
-                    useNativeDriver: true,
-                }),
-                Animated.timing(animatedValues.circle2, {
-                    toValue: windowHeight,
-                    duration: 0,
-                    useNativeDriver: true,
-                }),
-            ]),
-        ).start();
-        Animated.loop(
-            Animated.sequence([
-                Animated.timing(animatedValues.circle3, {
-                    toValue: -200,
-                    duration: Math.floor(Math.random() * 7000) + 3000,
-                    useNativeDriver: true,
-                }),
-                Animated.timing(animatedValues.circle3, {
-                    toValue: windowHeight,
-                    duration: 0,
-                    useNativeDriver: true,
-                }),
-            ]),
-        ).start();
-        Animated.loop(
-            Animated.sequence([
-                Animated.timing(animatedValues.circle4, {
-                    toValue: -200,
-                    duration: Math.floor(Math.random() * 7000) + 3000,
-                    useNativeDriver: true,
-                }),
-                Animated.timing(animatedValues.circle4, {
-                    toValue: windowHeight,
-                    duration: 0,
-                    useNativeDriver: true,
-                }),
-            ]),
-        ).start();
-        Animated.loop(
-            Animated.sequence([
-                Animated.timing(animatedValues.circle5, {
-                    toValue: -200,
-                    duration: Math.floor(Math.random() * 7000) + 3000,
-                    useNativeDriver: true,
-                }),
-                Animated.timing(animatedValues.circle5, {
-                    toValue: windowHeight,
-                    duration: 0,
-                    useNativeDriver: true,
-                }),
-            ]),
-        ).start();
-        Animated.loop(
-            Animated.sequence([
-                Animated.timing(animatedValues.circle6, {
-                    toValue: -200,
-                    duration: Math.floor(Math.random() * 7000) + 3000,
-                    useNativeDriver: true,
-                }),
-                Animated.timing(animatedValues.circle6, {
-                    toValue: windowHeight,
-                    duration: 0,
-                    useNativeDriver: true,
-                }),
-            ]),
-        ).start();
-        Animated.loop(
-            Animated.sequence([
-                Animated.timing(animatedValues.circle7, {
-                    toValue: -200,
-                    duration: Math.floor(Math.random() * 7000) + 3000,
-                    useNativeDriver: true,
-                }),
-                Animated.timing(animatedValues.circle7, {
-                    toValue: windowHeight,
-                    duration: 0,
-                    useNativeDriver: true,
-                }),
-            ]),
-        ).start();
-        Animated.loop(
-            Animated.sequence([
-                Animated.timing(animatedValues.circle8, {
-                    toValue: -200,
-                    duration: Math.floor(Math.random() * 7000) + 3000,
-                    useNativeDriver: true,
-                }),
-                Animated.timing(animatedValues.circle8, {
-                    toValue: windowHeight,
-                    duration: 0,
-                    useNativeDriver: true,
-                }),
-            ]),
-        ).start();
-        Animated.loop(
-            Animated.sequence([
-                Animated.timing(animatedValues.circle9, {
-                    toValue: -200,
-                    duration: Math.floor(Math.random() * 7000) + 3000,
-                    useNativeDriver: true,
-                }),
-                Animated.timing(animatedValues.circle9, {
-                    toValue: windowHeight,
-                    duration: 0,
-                    useNativeDriver: true,
-                }),
-            ]),
-        ).start();
-        Animated.loop(
-            Animated.sequence([
-                Animated.timing(animatedValues.circle10, {
-                    toValue: -200,
-                    duration: Math.floor(Math.random() * 7000) + 3000,
-                    useNativeDriver: true,
-                }),
-                Animated.timing(animatedValues.circle10, {
-                    toValue: windowHeight,
-                    duration: 0,
-                    useNativeDriver: true,
-                }),
-            ]),
-        ).start();
-        Animated.loop(
-            Animated.sequence([
-                Animated.timing(animatedValues.circle11, {
-                    toValue: -200,
-                    duration: Math.floor(Math.random() * 7000) + 3000,
-                    useNativeDriver: true,
-                }),
-                Animated.timing(animatedValues.circle11, {
-                    toValue: windowHeight,
-                    duration: 0,
-                    useNativeDriver: true,
-                }),
-            ]),
-        ).start();
-        Animated.loop(
-            Animated.sequence([
-                Animated.timing(animatedValues.circle12, {
-                    toValue: -200,
-                    duration: Math.floor(Math.random() * 7000) + 3000,
-                    useNativeDriver: true,
-                }),
-                Animated.timing(animatedValues.circle12, {
-                    toValue: windowHeight,
-                    duration: 0,
-                    useNativeDriver: true,
-                }),
-            ]),
-        ).start();
-    }, []);
+    const handleInicioSesion = async () => {
+        if (!email || !password) {
+            setShowAlert(true)
+            return;
+        }
+        
+        try {
+            const respuesta = await axios.post(`http://10.10.50.96:3000/api/auth/login`,
+                {
+                    email: email,
+                    password: password,
+                });
+            if (respuesta.data) {
+                console.log(respuesta.data)
+                setEmail("");
+                setPassword("");
+                navigation.navigate("Dashboard")
+            }
+        } catch (error) {
+            setShowAlert2(true);
+        }
+    };
 
     return (
         <View style={styles.container}>
             <View style={styles.inicio}>
-                <Animated.View style={[styles.circuloChico, styles.circulo1, { transform: [{ translateY: animatedValues.circle1 }] }]}></Animated.View>
-                <Animated.View style={[styles.circuloGrande, styles.circulo2, { transform: [{ translateY: animatedValues.circle2 }] }]}></Animated.View>
-                <Animated.View style={[styles.circuloChico, styles.circulo3, { transform: [{ translateY: animatedValues.circle3 }] }]}></Animated.View>
-                <Animated.View style={[styles.circuloGrande, styles.circulo4, { transform: [{ translateY: animatedValues.circle4 }] }]}></Animated.View>
-                <Animated.View style={[styles.circuloGrande, styles.circulo5, { transform: [{ translateY: animatedValues.circle5 }] }]}></Animated.View>
-                <Animated.View style={[styles.circuloChico, styles.circulo6, { transform: [{ translateY: animatedValues.circle6 }] }]}></Animated.View>
-                <Animated.View style={[styles.circuloChico, styles.circulo6, { transform: [{ translateY: animatedValues.circle6 }] }]}></Animated.View>
-                <Animated.View style={[styles.circuloChico, styles.circulo7, { transform: [{ translateY: animatedValues.circle7 }] }]}></Animated.View>
-                <Animated.View style={[styles.circuloChico, styles.circulo8, { transform: [{ translateY: animatedValues.circle8 }] }]}></Animated.View>
+                <Circulos></Circulos>
                 <View style={styles.cont}>
                     <Image
                         source={require('../assets/logo-estacionamiento.png')}
@@ -226,7 +66,7 @@ const InicioAndroid = () => {
                         style={styles.input}
                         placeholder="Correo electrónico"
                         value={email}
-                        onChangeText={setEmail}
+                        onChangeText={text => setEmail(text)}
                     />
                 </View>
                 <View style={styles.contenedor}>
@@ -234,22 +74,93 @@ const InicioAndroid = () => {
                     <TextInput
                         style={styles.input}
                         placeholder="Contraseña"
-                        secureTextEntry
+                        secureTextEntry={!showPassword}
                         value={password}
-                        onChangeText={setPassword}
+                        onChangeText={text => setPassword(text)}
                     />
+                    <TouchableOpacity style={styles.togglePassword} onPress={toggleShowPassword}>
+                        <FontAwesome name={showPassword ? 'eye-slash' : 'eye'} size={30} color="black" />
+                    </TouchableOpacity>
                 </View>
 
-                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Dashboard")}>
+                <TouchableOpacity style={styles.button} onPress={() => handleInicioSesion()}>
                     <Text style={styles.buttonText}>Iniciar Sesión</Text>
                 </TouchableOpacity>
             </View>
-
+            <Dialog
+                visible={showAlert}
+                onTouchOutside={() => setShowAlert(false)}
+                dialogStyle={styles.alertDialog}
+            >
+                <DialogContent style={styles.alertContent}>
+                    <Text style={styles.alertTitle}>Error</Text>
+                    <Text style={styles.alertText}>Por favor, complete todos los campos.</Text>
+                    <TouchableOpacity style={styles.alertButton} onPress={() => setShowAlert(false)}>
+                        <Text style={styles.alertButtonText}>Aceptar</Text>
+                    </TouchableOpacity>
+                </DialogContent>
+            </Dialog>
+            <Dialog
+                visible={showAlert2}
+                onTouchOutside={() => setShowAlert2(false)}
+                dialogStyle={styles.alertDialog}
+            >
+                <DialogContent style={styles.alertContent}>
+                    <Text style={styles.alertTitle}>Error</Text>
+                    <Text style={styles.alertText}>Correo o contraseña incorrectos.</Text>
+                    <TouchableOpacity style={styles.alertButton} onPress={() => setShowAlert2(false)}>
+                        <Text style={styles.alertButtonText}>Aceptar</Text>
+                    </TouchableOpacity>
+                </DialogContent>
+            </Dialog>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
+    togglePassword: {
+        position: 'absolute',
+        right: 10,
+        top: 10,
+    },
+    alertDialog: {
+        backgroundColor: 'transparent',
+        paddingHorizontal: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    alertTitle: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        marginBottom: 10,
+        textAlign: 'center',
+        color: '#f00', // Color del título
+    },
+    alertContent: {
+        backgroundColor:"#fff",
+        padding:15,
+        borderRadius:20,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    alertText: {
+        fontSize: 22,
+        textAlign: 'center',
+        color: '#555', // Color del texto
+    },
+    alertButton: {
+        backgroundColor: '#30BFBF',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 5,
+        marginTop: 20,
+    },
+    alertButtonText: {
+        color: '#fff',
+        fontSize: 18,
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
     cont: {
         width: 130,
         height: 130,
@@ -258,7 +169,7 @@ const styles = StyleSheet.create({
         justifyContent: "space-between"
     },
     contenedor: {
-        width: "100%",
+        width: 300,
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 10,
@@ -339,7 +250,7 @@ const styles = StyleSheet.create({
     },
     container: {
         marginTop: Constants.statusBarHeight,
-        minHeight: 800,
+        minHeight: 650,
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
@@ -363,7 +274,7 @@ const styles = StyleSheet.create({
         textAlign: "center"
     },
     input: {
-        width: 300,
+        flexGrow:1,
         height: 50,
         marginLeft: 10,
         borderWidth: 1,
@@ -402,3 +313,4 @@ const styles = StyleSheet.create({
 });
 
 export default InicioAndroid;
+

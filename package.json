@@ -13,6 +13,7 @@
     "@react-native-community/masked-view": "^0.1.11",
     "@react-navigation/native": "^6.1.10",
     "@react-navigation/stack": "^6.3.20",
+    "axios": "^1.6.8",
     "expo": "~50.0.6",
     "expo-constants": "~15.4.5",
     "expo-linear-gradient": "^12.7.2",
@@ -23,9 +24,11 @@
     "react-native": "0.73.4",
     "react-native-animatable": "^1.4.0",
     "react-native-gesture-handler": "~2.14.0",
+    "react-native-popup-dialog": "^0.18.3",
     "react-native-vector-icons": "^10.0.3",
     "react-native-web": "~0.19.6",
-    "socket.io-client": "^4.7.5"
+    "socket.io-client": "^4.7.5",
+    "sweetalert2": "^11.10.7"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
